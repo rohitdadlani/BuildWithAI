@@ -5,6 +5,9 @@ import base64
 import os
 import io
 import time
+from dotenv import load_dotenv
+
+load_dotenv()
 from PIL import Image
 
 try:

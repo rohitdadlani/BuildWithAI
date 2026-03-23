@@ -49,7 +49,7 @@ graph TD
     - **Gemini 2.0 Flash**: Live multimodal frame analysis and status copywriting.
     - **Imagen 3**: Dynamic generation of passenger-facing AV chauffeur avatars.
     - **Vertex AI GenAI SDK**: Powering video analysis for the post-incident pipeline.
-- **Backend**: Python (Asyncio, Websockets, SQLite/BigQuery Mock).
+- **Backend**: Python (Asyncio, Websockets, SQLite/BigQuery Mock, Dotenv).
 - **Frontend**: React (Webcam API, WebSocket streaming, Luxury Terminal UI).
 - **Media**: FFmpeg (Automated video labeling and clip extraction).
 - **CLI/UX**: `rich` library for a professional-grade live terminal dashboard.
@@ -59,61 +59,58 @@ graph TD
 ## 🚀 Local Setup & Installation
 
 ### 1. Prerequisites
-- **Python 3.9+**
-- **FFmpeg** (v4.0+ for video overlays)
-- **Git**
+- **Python 3.10+**
+- **Node.js / npm**
+- **FFmpeg** 
 - **Google Generative AI API Key** (Gemini)
 
 ### 2. Install Dependencies
 ```bash
-pip install websockets pillow google-generativeai rich
+# Backend
+pip install websockets pillow google-generativeai rich python-dotenv
+
+# Frontend
+npm install
 ```
 
 ### 3. Environment Configuration
-Set your Gemini API key in your terminal session:
+Create a `.env` file in the root directory (rename from `.env.example`):
 ```bash
-# Windows (PowerShell)
-$env:GEMINI_API_KEY="your-api-key-here"
-
-# Linux/Mac
-export GEMINI_API_KEY="your-api-key-here"
+GEMINI_API_KEY="your-api-key-here"
 ```
 
 ---
 
 ## 🎮 Running the Demo
 
-### Phase 1: Start the Orchestrator
-Launch the main dashboard to initialize the WebSocket server and the local permits database:
+### Phase 1: Start the Dashboard (Backend)
+Launch the master terminal dashboard:
 ```bash
 python main.py
 ```
 
-### Phase 2: Start the Dashcam (React)
-Import `DashcamStream.jsx` into your React app and run your dev server. 
-- Point your webcam at the screen.
-- Use the **"SIMULATE INCIDENT"** button or hold up a "Stop" hand gesture to trigger the pipeline.
+### Phase 2: Start the Dashcam (Frontend)
+Run the Vite development server on the alternative port:
+```bash
+npx vite --port 8888 --host
+```
 
 ### Phase 3: Inspect the Logs
-Watch the **Rich Dashboard** in your terminal as it pulses blue, queries the SQLite DB, calls Imagen 3, and dispatches the AV reroute command.
-
-### Phase 4: Video Director (Post-Incident)
-Once the demo completes, run the automated video slicer:
-```bash
-python vertex_video_director.py sample_dashcam.mp4
-```
+Open **http://localhost:8888** in a browser (Incognito recommended). 
+Watch the terminal dashboard as it pulses blue, queries the SQLite DB, and triggers the AI reroute logic.
 
 ---
 
 ## 📂 Project Structure
-- `main.py`: The master CLI dashboard for the demo.
+- `main.py`: The master CLI dashboard and orchestrator.
 - `ws_server.py`: WebSocket gateway linking React to Gemini.
 - `edgeops_orchestrator.py`: Logic for Verify -> Decide -> Act.
 - `mock_bigquery.py`: SQLite-powered SF permit database.
-- `passenger_ui_generator.py`: Imagen 3 / Gemini UX component.
-- `vertex_video_director.py`: FFmpeg video slicing automation.
-- `DashcamStream.jsx`: Client-side webcam streaming.
-- `PassengerScreen.jsx`: Luxury in-car passenger UI.
+- `App.jsx`: Master React entry point combining Dashcam and Passenger UI.
+- `DashcamStream.jsx`: Client-side webcam streaming component.
+- `PassengerScreen.jsx`: Luxury in-car passenger UI component.
+- `index.html`: UI entry point.
+- `.env.example`: API Key template.
 
 ---
 

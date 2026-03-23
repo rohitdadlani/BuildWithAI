@@ -1,5 +1,8 @@
 import os
 import time
+from dotenv import load_dotenv
+
+load_dotenv()
 from mock_bigquery import query_permit
 from antigravity_actions import dispatch_reroute
 
